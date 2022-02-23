@@ -3,105 +3,134 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from '@expo/vector-icons';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import * as React from 'react';
-import { ColorSchemeName, Pressable } from 'react-native';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import * as React from "react";
+import { ColorSchemeName } from "react-native";
+import {
+  RootStackParamList,
+  RootTabParamList,
+  RootTabScreenProps,
+} from "../../types";
 
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
-import ModalScreen from '../screens/ModalScreen';
-import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
-import { RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types';
-import LinkingConfiguration from './LinkingConfiguration';
+import AddIcon from "../icons/AddIcon";
+import CalendarIcon from "../icons/CalendarIcon";
+import FilterIcon from "../icons/FilterIcon";
+import ListsIcon from "../icons/ListsIcon";
+import MyDayIcon from "../icons/MyDayIcon";
+import PeopleIcon from "../icons/PeopleIcon";
+import SearchIcon from "../icons/SearchIcon";
+import TasksActiveIcon from "../icons/TasksActiveIcon";
+import TasksInactiveIcon from "../icons/TasksInactiveIcon";
+import ModalScreen from "../screens/ModalScreen";
+import NotFoundScreen from "../screens/NotFoundScreen";
+import ListsScreen from "../screens/TabFourScreen";
+import MyDayScreen from "../screens/TabOneScreen";
+import TasksScreen from "../screens/TabThreeScreen";
+import CalendarScreen from "../screens/TabTwoScreen";
+import LinkingConfiguration from "./LinkingConfiguration";
 
-export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+export default function Navigation() {
   return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <NavigationContainer linking={LinkingConfiguration}>
       <RootNavigator />
     </NavigationContainer>
   );
 }
 
-/**
- * A root stack navigator is often used for displaying modals on top of all other content.
- * https://reactnavigation.org/docs/modal
- */
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Root" component={BottomTabNavigator} options={{ headerShown: false }} />
-      <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
+      <Stack.Screen
+        name="Root"
+        component={BottomTabNavigator}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="NotFound"
+        component={NotFoundScreen}
+        options={{ title: "Oops!" }}
+      />
+      <Stack.Group screenOptions={{ presentation: "modal" }}>
         <Stack.Screen name="Modal" component={ModalScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
 }
 
-/**
- * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
- * https://reactnavigation.org/docs/bottom-tab-navigator
- */
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
-
   return (
-    <BottomTab.Navigator
-      initialRouteName="TabOne"
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}>
+    <BottomTab.Navigator initialRouteName="MyDayTab">
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<'TabOne'>) => ({
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        name="MyDayTab"
+        component={MyDayScreen}
+        options={({ navigation }: RootTabScreenProps<"MyDayTab">) => ({
+          title: "My Day",
+          tabBarIcon: () => <MyDayIcon />,
           headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate('Modal')}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}>
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
+            <>
+              <SearchIcon />
+              <FilterIcon />
+              <PeopleIcon />
+              <AddIcon />
+            </>
           ),
         })}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
+        name="CalendarTab"
+        component={CalendarScreen}
+        options={({ navigation }: RootTabScreenProps<"CalendarTab">) => ({
+          title: "Calendar",
+          tabBarIcon: () => <CalendarIcon />,
+          headerRight: () => (
+            <>
+              <SearchIcon />
+              <FilterIcon />
+              <PeopleIcon />
+              <AddIcon />
+            </>
+          ),
+        })}
+      />
+      <BottomTab.Screen
+        name="TasksTab"
+        component={TasksScreen}
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Tasks",
+          tabBarIcon: ({ focused }) =>
+            focused ? <TasksActiveIcon /> : <TasksInactiveIcon />,
+          headerRight: () => (
+            <>
+              <SearchIcon />
+              <FilterIcon />
+              <PeopleIcon />
+              <AddIcon />
+            </>
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="ListsTab"
+        component={ListsScreen}
+        options={{
+          title: "Lists",
+          tabBarIcon: () => <ListsIcon />,
+          headerRight: () => (
+            <>
+              <SearchIcon />
+              <FilterIcon />
+              <PeopleIcon />
+              <AddIcon />
+            </>
+          ),
         }}
       />
     </BottomTab.Navigator>
   );
-}
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
 }
