@@ -1,9 +1,10 @@
 import * as React from "react";
+import { StyleSheet } from "react-native";
 import Svg, { G, Path, Defs, ClipPath } from "react-native-svg";
 
 const CalendarIcon = () => {
   return (
-    <Svg width={22} height={21} fill="none">
+    <Svg style={styles.icon} width={22} height={21} fill="none">
       <G clipPath="url(#a)">
         <Path
           fillRule="evenodd"
@@ -28,5 +29,11 @@ const CalendarIcon = () => {
     </Svg>
   );
 };
+
+const styles = StyleSheet.create({
+  icon: {
+    transform: [{ scale: 0.8 }],
+  },
+});
 
 export default CalendarIcon;

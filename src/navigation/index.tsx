@@ -7,13 +7,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import { ColorSchemeName } from "react-native";
-import {
-  RootStackParamList,
-  RootTabParamList,
-  RootTabScreenProps,
-} from "../../types";
-
+import { RootStackParamList, RootTabParamList } from "../../types";
+import { getHeaderTitle } from "@react-navigation/elements";
 import AddIcon from "../icons/AddIcon";
 import CalendarIcon from "../icons/CalendarIcon";
 import FilterIcon from "../icons/FilterIcon";
@@ -25,11 +20,23 @@ import TasksActiveIcon from "../icons/TasksActiveIcon";
 import TasksInactiveIcon from "../icons/TasksInactiveIcon";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
-import ListsScreen from "../screens/TabFourScreen";
-import MyDayScreen from "../screens/TabOneScreen";
-import TasksScreen from "../screens/TabThreeScreen";
-import CalendarScreen from "../screens/TabTwoScreen";
+import MyDayScreen from "../screens/MyDayScreen";
+import CalendarScreen from "../screens/CalendarScreen";
+import TasksScreen from "../screens/TasksScreen";
+import ListsScreen from "../screens/ListsScreen";
 import LinkingConfiguration from "./LinkingConfiguration";
+import { View } from "react-native";
+import TabsBar from "../components/TabsBar";
+import Colors from "../constants/Colors";
+import Header from "../components/Header";
+
+interface TabCollection {
+  name: keyof RootTabParamList;
+  component;
+  title: string;
+  activeIcon: JSX.Element;
+  inactiveIcon: JSX.Element;
+}
 
 export default function Navigation() {
   return (
@@ -64,73 +71,57 @@ function RootNavigator() {
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
+  const tabs: TabCollection[] = [
+    {
+      name: "MyDayTab",
+      component: MyDayScreen,
+      title: "My Day",
+      activeIcon: <MyDayIcon />,
+      inactiveIcon: <MyDayIcon />,
+    },
+    {
+      name: "CalendarTab",
+      component: CalendarScreen,
+      title: "Calendar",
+      activeIcon: <CalendarIcon />,
+      inactiveIcon: <CalendarIcon />,
+    },
+    {
+      name: "TasksTab",
+      component: TasksScreen,
+      title: "Tasks",
+      activeIcon: <TasksActiveIcon />,
+      inactiveIcon: <TasksInactiveIcon />,
+    },
+    {
+      name: "ListsTab",
+      component: ListsScreen,
+      title: "Lists",
+      activeIcon: <ListsIcon />,
+      inactiveIcon: <ListsIcon />,
+    },
+  ];
   return (
-    <BottomTab.Navigator initialRouteName="MyDayTab">
-      <BottomTab.Screen
-        name="MyDayTab"
-        component={MyDayScreen}
-        options={({ navigation }: RootTabScreenProps<"MyDayTab">) => ({
-          title: "My Day",
-          tabBarIcon: () => <MyDayIcon />,
-          headerRight: () => (
-            <>
-              <SearchIcon />
-              <FilterIcon />
-              <PeopleIcon />
-              <AddIcon />
-            </>
-          ),
-        })}
-      />
-      <BottomTab.Screen
-        name="CalendarTab"
-        component={CalendarScreen}
-        options={({ navigation }: RootTabScreenProps<"CalendarTab">) => ({
-          title: "Calendar",
-          tabBarIcon: () => <CalendarIcon />,
-          headerRight: () => (
-            <>
-              <SearchIcon />
-              <FilterIcon />
-              <PeopleIcon />
-              <AddIcon />
-            </>
-          ),
-        })}
-      />
-      <BottomTab.Screen
-        name="TasksTab"
-        component={TasksScreen}
-        options={{
-          title: "Tasks",
-          tabBarIcon: ({ focused }) =>
-            focused ? <TasksActiveIcon /> : <TasksInactiveIcon />,
-          headerRight: () => (
-            <>
-              <SearchIcon />
-              <FilterIcon />
-              <PeopleIcon />
-              <AddIcon />
-            </>
-          ),
-        }}
-      />
-      <BottomTab.Screen
-        name="ListsTab"
-        component={ListsScreen}
-        options={{
-          title: "Lists",
-          tabBarIcon: () => <ListsIcon />,
-          headerRight: () => (
-            <>
-              <SearchIcon />
-              <FilterIcon />
-              <PeopleIcon />
-              <AddIcon />
-            </>
-          ),
-        }}
-      />
+    <BottomTab.Navigator
+      initialRouteName="TasksTab"
+      tabBar={(props) => <TabsBar {...props} />}
+    >
+      {tabs.map((tab) => (
+        <BottomTab.Screen
+          key={tab.name}
+          name={tab.name}
+          component={tab.component}
+          options={{
+            header: ({ navigation, route, options }) => {
+              const title = getHeaderTitle(options, route.name);
+
+              return <Header title={title} />;
+            },
+            title: tab.title,
+            tabBarIcon: () => tab.activeIcon,
+          }}
+        />
+      ))}
     </BottomTab.Navigator>
   );
 }

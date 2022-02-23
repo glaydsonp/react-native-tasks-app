@@ -10,10 +10,11 @@ export default {
     tabIconSelected: tintColorLight,
   },
   dark: {
-    text: '#000',
-    background: '#fff',
+    text: "#000",
+    background: "#fff",
     tint: tintColorLight,
-    tabIconDefault: '#ccc',
+    tabIconDefault: "#ccc",
     tabIconSelected: tintColorLight,
   },
+  mainAppColor: "#4355B6",
 };
