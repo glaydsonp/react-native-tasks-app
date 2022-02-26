@@ -1,5 +1,4 @@
-import { getHeaderTitle } from "@react-navigation/elements";
-import { StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 import Colors from "../constants/Colors";
 import AddIcon from "../icons/AddIcon";
 import FilterIcon from "../icons/FilterIcon";
@@ -7,7 +6,7 @@ import PeopleIcon from "../icons/PeopleIcon";
 import SearchIcon from "../icons/SearchIcon";
 import { View } from "./Themed";
 
-const Header = ({ title }) => {
+const Header = ({ title, navigation }) => {
   return (
     <View style={styles.header}>
       <Text style={styles.title}>{title}</Text>
@@ -22,7 +21,14 @@ const Header = ({ title }) => {
           <PeopleIcon />
         </View>
         <View style={styles.icons}>
-          <AddIcon />
+          <Pressable
+            onPress={() => navigation.navigate("AddTaskScreen")}
+            style={({ pressed }) => ({
+              opacity: pressed ? 0.5 : 1,
+            })}
+          >
+            <AddIcon />
+          </Pressable>
         </View>
       </View>
     </View>

@@ -1,34 +1,23 @@
-/**
- * If you are not familiar with React Navigation, refer to the "Fundamentals" guide:
- * https://reactnavigation.org/docs/getting-started
- *
- */
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { RootStackParamList, RootTabParamList } from "../../types";
 import { getHeaderTitle } from "@react-navigation/elements";
-import AddIcon from "../icons/AddIcon";
 import CalendarIcon from "../icons/CalendarIcon";
-import FilterIcon from "../icons/FilterIcon";
 import ListsIcon from "../icons/ListsIcon";
 import MyDayIcon from "../icons/MyDayIcon";
-import PeopleIcon from "../icons/PeopleIcon";
-import SearchIcon from "../icons/SearchIcon";
 import TasksActiveIcon from "../icons/TasksActiveIcon";
 import TasksInactiveIcon from "../icons/TasksInactiveIcon";
-import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import MyDayScreen from "../screens/MyDayScreen";
 import CalendarScreen from "../screens/CalendarScreen";
 import TasksScreen from "../screens/TasksScreen";
 import ListsScreen from "../screens/ListsScreen";
 import LinkingConfiguration from "./LinkingConfiguration";
-import { View } from "react-native";
 import TabsBar from "../components/TabsBar";
-import Colors from "../constants/Colors";
 import Header from "../components/Header";
+import AddTaskScreen from "../screens/AddTaskScreen";
 
 interface TabCollection {
   name: keyof RootTabParamList;
@@ -62,7 +51,7 @@ function RootNavigator() {
         options={{ title: "Oops!" }}
       />
       <Stack.Group screenOptions={{ presentation: "modal" }}>
-        <Stack.Screen name="Modal" component={ModalScreen} />
+        <Stack.Screen name="AddTaskScreen" component={AddTaskScreen} />
       </Stack.Group>
     </Stack.Navigator>
   );
@@ -115,7 +104,7 @@ function BottomTabNavigator() {
             header: ({ navigation, route, options }) => {
               const title = getHeaderTitle(options, route.name);
 
-              return <Header title={title} />;
+              return <Header title={title} navigation={navigation} />;
             },
             title: tab.title,
             tabBarIcon: () => tab.activeIcon,
