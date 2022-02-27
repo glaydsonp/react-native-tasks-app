@@ -16,7 +16,7 @@ interface TaskItemProps {
 
 const TaskItem = ({ task }: TaskItemProps) => {
   const [isTaskDone, setIsTaskDone] = useState(task.isTaskDone);
-
+  console.log(task.date);
   return (
     <View style={styles.container}>
       <View>
@@ -51,8 +51,12 @@ const TaskItem = ({ task }: TaskItemProps) => {
                 </>
               )}
             </View>
-            {/* <View style={styles.extraOptionsContainer}>{task.date && <CommentsIcon />}</View>
-          <View style={styles.extraOptionsContainer}>{task.date && <RecurringIcon />}</View> */}
+            {/* <View style={styles.extraOptionsContainer}>
+              {task.date && <CommentsIcon />}
+            </View>
+            <View style={styles.extraOptionsContainer}>
+              {task.date && <RecurringIcon />}
+            </View> */}
           </View>
         )}
         {task.tags && task.tags.length > 0 && (

@@ -1,6 +1,9 @@
 import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
 import React, { useState } from "react";
 import { TaskModel } from "../models/TaskModel";
+import { TextInputMask } from "react-native-masked-text";
+import moment from "moment";
+import Toast from "react-native-toast-message";
 
 const AddTaskScreen = () => {
   const [addTaskForm, setTaskForm] = useState<TaskModel>({
@@ -21,6 +24,17 @@ const AddTaskScreen = () => {
   };
 
   const saveTask = () => {
+    if (addTaskForm.date) {
+      if (moment(addTaskForm.date, "MM/DD/YYYY", true).isValid()) {
+        console.log("date valid");
+      } else {
+        Toast.show({
+          type: "error",
+          text1: "The Date informed is invalid.",
+        });
+      }
+    }
+
     console.log(addTaskForm);
   };
 
@@ -53,6 +67,18 @@ const AddTaskScreen = () => {
         style={styles.input}
         onChangeText={setTags}
         value={addTaskForm.tags.join(",")}
+      />
+      <TextInputMask
+        type={"custom"}
+        options={{ mask: "99/99/9999" }}
+        placeholder="MM/DD/YYYY"
+        value={addTaskForm.date}
+        onChangeText={(date) => {
+          setTaskForm((currentTaskForm) => ({
+            ...currentTaskForm,
+            date,
+          }));
+        }}
       />
       <Pressable
         onPress={saveTask}
