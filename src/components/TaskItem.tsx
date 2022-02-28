@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { TaskModel } from "../models/TaskModel";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import DateIcon from "../icons/DateIcon";
@@ -47,7 +47,6 @@ const TaskItem = ({ task }: TaskItemProps) => {
   const [isTaskDone, setIsTaskDone] = useState(task.isTaskDone);
 
   const toggleTaskStatus = () => {
-    console.log(task);
     setIsTaskDone((isTaskDone) => !isTaskDone);
 
     updateTask({
@@ -64,66 +63,69 @@ const TaskItem = ({ task }: TaskItemProps) => {
     });
   };
 
-  return (
-    <View style={styles.container}>
-      <View>
-        <Text
-          style={{
-            textDecorationLine: isTaskDone ? "line-through" : "none",
-            fontWeight: "bold",
-            maxWidth: Dimensions.get("window").width - 100,
-          }}
-        >
-          {task.description}
-        </Text>
-        {!!task.date && (
-          <View style={styles.extraOptionsContainer}>
+  return useMemo(
+    () => (
+      <View style={styles.container}>
+        <View>
+          <Text
+            style={{
+              textDecorationLine: isTaskDone ? "line-through" : "none",
+              fontWeight: "bold",
+              maxWidth: Dimensions.get("window").width - 100,
+            }}
+          >
+            {task.description}
+          </Text>
+          {!!task.date && (
             <View style={styles.extraOptionsContainer}>
-              {!!task.date && (
-                <>
-                  <DateIcon />
-                  <Text style={{ marginLeft: 5 }}>
-                    {formatDate(task.date, "dd MMM")}
-                  </Text>
-                </>
-              )}
-            </View>
-            <View style={styles.extraOptionsContainer}>
-              {!!task.date && (
-                <>
-                  <HourIcon />
-                  <Text style={{ marginLeft: 5 }}>
-                    {formatDate(task.date, "HH:mm")}
-                  </Text>
-                </>
-              )}
-            </View>
-            {/* <View style={styles.extraOptionsContainer}>
+              <View style={styles.extraOptionsContainer}>
+                {!!task.date && (
+                  <>
+                    <DateIcon />
+                    <Text style={{ marginLeft: 5 }}>
+                      {formatDate(task.date, "dd MMM")}
+                    </Text>
+                  </>
+                )}
+              </View>
+              <View style={styles.extraOptionsContainer}>
+                {!!task.date && (
+                  <>
+                    <HourIcon />
+                    <Text style={{ marginLeft: 5 }}>
+                      {formatDate(task.date, "HH:mm")}
+                    </Text>
+                  </>
+                )}
+              </View>
+              {/* <View style={styles.extraOptionsContainer}>
               {task.date && <CommentsIcon />}
             </View>
             <View style={styles.extraOptionsContainer}>
               {task.date && <RecurringIcon />}
             </View> */}
-          </View>
-        )}
-        {task.tags && task.tags.length > 0 && (
-          <View style={styles.extraOptionsContainer}>
-            {task.tags.map((tag) => (
-              <Text key={tag}>{tag}</Text>
-            ))}
-          </View>
-        )}
+            </View>
+          )}
+          {task.tags && task.tags.length > 0 && (
+            <View style={styles.extraOptionsContainer}>
+              {task.tags.map((tag) => (
+                <Text key={tag}>{tag}</Text>
+              ))}
+            </View>
+          )}
+        </View>
+        <BouncyCheckbox
+          size={25}
+          fillColor="#FD7246"
+          unfillColor="#FFFFFF"
+          iconStyle={{ borderColor: "#FD7246" }}
+          onPress={toggleTaskStatus}
+          isChecked={isTaskDone}
+          style={styles.checkbox}
+        />
       </View>
-      <BouncyCheckbox
-        size={25}
-        fillColor="#FD7246"
-        unfillColor="#FFFFFF"
-        iconStyle={{ borderColor: "#FD7246" }}
-        onPress={toggleTaskStatus}
-        isChecked={isTaskDone}
-        style={styles.checkbox}
-      />
-    </View>
+    ),
+    [isTaskDone]
   );
 };
 

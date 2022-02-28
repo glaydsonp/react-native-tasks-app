@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 import Colors from "../constants/Colors";
 import AddIcon from "../icons/AddIcon";
@@ -7,31 +8,34 @@ import SearchIcon from "../icons/SearchIcon";
 import { View } from "./Themed";
 
 const Header = ({ title, navigation }) => {
-  return (
-    <View style={styles.header}>
-      <Text style={styles.title}>{title}</Text>
-      <View style={styles.container}>
-        <View style={styles.icons}>
-          <SearchIcon />
-        </View>
-        <View style={styles.icons}>
-          <FilterIcon />
-        </View>
-        <View style={styles.icons}>
-          <PeopleIcon />
-        </View>
-        <View style={styles.icons}>
-          <Pressable
-            onPress={() => navigation.navigate("AddTaskScreen")}
-            style={({ pressed }) => ({
-              opacity: pressed ? 0.5 : 1,
-            })}
-          >
-            <AddIcon />
-          </Pressable>
+  return useMemo(
+    () => (
+      <View style={styles.header}>
+        <Text style={styles.title}>{title}</Text>
+        <View style={styles.container}>
+          <View style={styles.icons}>
+            <SearchIcon />
+          </View>
+          <View style={styles.icons}>
+            <FilterIcon />
+          </View>
+          <View style={styles.icons}>
+            <PeopleIcon />
+          </View>
+          <View style={styles.icons}>
+            <Pressable
+              onPress={() => navigation.navigate("AddTaskScreen")}
+              style={({ pressed }) => ({
+                opacity: pressed ? 0.5 : 1,
+              })}
+            >
+              <AddIcon />
+            </Pressable>
+          </View>
         </View>
       </View>
-    </View>
+    ),
+    [title, navigation]
   );
 };
 
