@@ -4,7 +4,7 @@ import { RootTabScreenProps } from "../../types";
 
 export default function ListsScreen({
   navigation,
-}: RootTabScreenProps<"ListsTab">) {
+}: RootTabScreenProps<"ListsTabScreen">) {
   return (
     <View style={styles.container}>
       <Text>This is Lists Tab.</Text>

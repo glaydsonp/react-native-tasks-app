@@ -15,29 +15,29 @@ const linking: LinkingOptions<RootStackParamList> = {
     screens: {
       Root: {
         screens: {
-          TabOne: {
+          MyDayTabScreen: {
             screens: {
-              TabOneScreen: "one",
+              MyDayTabScreen: "MyDayTabScreen",
             },
           },
-          TabTwo: {
+          CalendarTabScreen: {
             screens: {
-              TabTwoScreen: "two",
+              CalendarTabScreen: "CalendarTabScreen",
             },
           },
-          TabThree: {
+          TasksTabScreen: {
             screens: {
-              TabTwoScreen: "three",
+              TasksTabScreen: "TasksTabScreen",
             },
           },
-          TabFour: {
+          ListsTabScreen: {
             screens: {
-              TabTwoScreen: "four",
+              ListsTabScreen: "ListsTabScreen",
             },
           },
         },
       },
-      Modal: "modal",
+      AddTaskScreen: "AddTaskScreen",
       NotFound: "*",
     },
   },

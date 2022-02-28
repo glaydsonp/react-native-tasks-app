@@ -4,7 +4,7 @@ import { RootTabScreenProps } from "../../types";
 
 export default function MyDayScreen({
   navigation,
-}: RootTabScreenProps<"MyDayTab">) {
+}: RootTabScreenProps<"MyDayTabScreen">) {
   return (
     <View style={styles.container}>
       <Text>This is My Day Tab.</Text>

@@ -5,4 +5,5 @@ export interface TaskModel {
   isTaskDone: boolean;
   tags?: string[];
   date?: string;
+  time?: string;
 }

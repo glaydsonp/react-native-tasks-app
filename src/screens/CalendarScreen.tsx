@@ -4,7 +4,7 @@ import { RootTabScreenProps } from "../../types";
 
 export default function CalendarScreen({
   navigation,
-}: RootTabScreenProps<"CalendarTab">) {
+}: RootTabScreenProps<"CalendarTabScreen">) {
   return (
     <View style={styles.container}>
       <Text>This is Calendar Tab.</Text>

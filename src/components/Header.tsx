@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     height: 80,
     backgroundColor: Colors.mainAppColor,
+    paddingTop: 20,
   },
 
   title: {
@@ -55,7 +56,6 @@ const styles = StyleSheet.create({
 
   container: {
     flexDirection: "row",
-    padding: 10,
     backgroundColor: Colors.mainAppColor,
   },
 

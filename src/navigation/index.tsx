@@ -62,28 +62,28 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 function BottomTabNavigator() {
   const tabs: TabCollection[] = [
     {
-      name: "MyDayTab",
+      name: "MyDayTabScreen",
       component: MyDayScreen,
       title: "My Day",
       activeIcon: <MyDayIcon />,
       inactiveIcon: <MyDayIcon />,
     },
     {
-      name: "CalendarTab",
+      name: "CalendarTabScreen",
       component: CalendarScreen,
       title: "Calendar",
       activeIcon: <CalendarIcon />,
       inactiveIcon: <CalendarIcon />,
     },
     {
-      name: "TasksTab",
+      name: "TasksTabScreen",
       component: TasksScreen,
       title: "Tasks",
       activeIcon: <TasksActiveIcon />,
       inactiveIcon: <TasksInactiveIcon />,
     },
     {
-      name: "ListsTab",
+      name: "ListsTabScreen",
       component: ListsScreen,
       title: "Lists",
       activeIcon: <ListsIcon />,
@@ -92,7 +92,7 @@ function BottomTabNavigator() {
   ];
   return (
     <BottomTab.Navigator
-      initialRouteName="TasksTab"
+      initialRouteName="TasksTabScreen"
       tabBar={(props) => <TabsBar {...props} />}
     >
       {tabs.map((tab) => (

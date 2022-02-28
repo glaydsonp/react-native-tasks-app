@@ -51,13 +51,14 @@ const TabsBar = ({ state, descriptors, navigation }) => {
           >
             <View
               style={{
-                height: 70,
+                height: 80,
                 backgroundColor: "#fff",
                 justifyContent: "space-between",
                 alignItems: "center",
                 borderTopColor: isFocused ? Colors.mainAppColor : "#E4E4E4",
                 borderTopWidth: isFocused ? 5 : 2,
                 padding: 10,
+                paddingBottom: 20,
               }}
             >
               {icon()}
